@@ -6,6 +6,6 @@ calcBtn.addEventListener("click", () => {
     const operation = document.getElementById("operation").value
     if (val1 && val2 && operation) {
         const resultDom = document.getElementById("result")
-        resultDom.innerHTML = eval(`${val1} ${operation} ${val2}`)
+        resultDom.innerHTML = `Результат: ${eval(`${val1} ${operation} ${val2}`)}`
     }
 })
