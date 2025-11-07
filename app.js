@@ -43,7 +43,7 @@ const updateRes = (val) => {
             } else {
                 throw new Error("Ошибка: введено некоретное значение")
             }
-        } else if (val === "RM") {
+        } else if (val === "RM" || val === "Delete") {
             result.textContent = EMPTY_VAL
         } else if (val === "⌫" || val === "Backspace") {
             if (result.textContent && result.textContent !== "0") {
@@ -52,9 +52,16 @@ const updateRes = (val) => {
                 result.textContent = EMPTY_VAL
             }
         } else {
-            result.textContent += val
+            // console.log("!isNan(val)", !isNaN(val))
+            if (result.textContent.at(-1) === "0" && !isNaN(val)) {
+                // Нормализация чисел: автоматически исправлять 0123 → 123
+                result.textContent = result.textContent.slice(1, -1) + val
+            } else {
+                result.textContent += val
+            }
         }
     } catch (e) {
+        console.log(e.message)
         result.classList.add("error")
     }
 }

@@ -2,6 +2,14 @@
 
 COMMIT_MSG=$(cat "$1")
 
+if echo "$COMMIT_MSG" | grep -q "^\(feat\|fix\):"; then
+    if ! echo "$COMMIT_MSG" | grep -q "^\(feat\|fix\): #[0-9]"; then
+        echo "❌ Ошибка: feat и fix коммиты должны содержать номер задачи: feat: #123 описание"
+        echo "✅ Пример: feat: #9 добавить тёмную тему"
+        exit 1
+    fi
+fi
+
 if echo "$COMMIT_MSG" | grep -q "^fix: #[0-9]"; then
     ISSUE_NUMBER=$(echo "$COMMIT_MSG" | grep -o '#[0-9]*' | sed 's/#//')
     echo "🔧 Закрываю issue #$ISSUE_NUMBER..."
