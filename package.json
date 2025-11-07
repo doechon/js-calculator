@@ -1,17 +1,23 @@
 {
   "name": "js-calculator",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
   "scripts": {
     "dev": "serve",
     "bugs": "gh issue list --label bug --state open",
     "bug": "node scripts-gh/bug.js",
     "prepare": "husky",
-    "test": "echo 'No tests yet' && exit 0"
+    "test": "echo 'No tests yet' && exit 0",
+    "changelog": "changelogen",
+    "release": "changelogen --release",
+    "release:patch": "changelogen --release --patch",
+    "release:minor": "changelogen --release --minor",
+    "release:major": "changelogen --release --major"
   },
   "devDependencies": {
     "@commitlint/cli": "^20.1.0",
     "@commitlint/config-conventional": "^20.0.0",
+    "changelogen": "^0.6.2",
     "husky": "^9.1.7",
     "serve": "^14.2.5"
   }
