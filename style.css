@@ -41,6 +41,11 @@ h1 {
     word-break: break-all;
 }
 
+.calc-result.error {
+    border: 2px solid #e74c3c;
+    box-shadow: 0 0 10px rgba(231, 76, 60, 0.5);
+}
+
 /* Строки калькулятора */
 .calc-line {
     display: flex;
