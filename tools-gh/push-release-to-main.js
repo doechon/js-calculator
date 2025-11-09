@@ -1,33 +1,25 @@
 #!/usr/bin/env node
-const { execSync } = require("child_process")
-const packageJson = require("../package.json")
+import { execSync } from "child_process"
 
-const version = packageJson.version
-const releaseBranch = `v${version}`
-
-console.log(`🚀 Завершение релиза v${version}...`)
+console.log("🚀 Мердж релизной ветки в main...")
 
 try {
-    // 1. Проверяем, что мы в релизной ветке
+    // 1. Получаем текущую ветку (просто для информации)
     const currentBranch = execSync("git branch --show-current").toString().trim()
-    if (currentBranch !== releaseBranch) {
-        console.error(`❌ Текущая ветка: ${currentBranch}. Должна быть: ${releaseBranch}`)
-        process.exit(1)
-    }
+    console.log(`📁 Текущая ветка: ${currentBranch}`)
 
     // 2. Мерджим в main
-    console.log(`🔀 Мерджим ${releaseBranch} в main...`)
+    console.log("🔀 Переключаемся на main и мерджим...")
     execSync("git checkout main", { stdio: "inherit" })
-    execSync(`git merge ${releaseBranch} --no-ff -m "Release v${version}"`, { stdio: "inherit" })
+    execSync(`git merge ${currentBranch} --no-ff -m "Release ${currentBranch}"`, { stdio: "inherit" })
 
-    // 3. Пушим всё
+    // 3. Пушим всё (git сам скажет если уже запушено)
     console.log("📤 Пушим изменения...")
     execSync("git push origin main", { stdio: "inherit" })
     execSync("git push --tags", { stdio: "inherit" })
 
-    console.log(`✅ Релиз v${version} завершён!`)
-    console.log(`🌐 GitHub: https://github.com/doechon/js-calculator/releases/tag/v${version}`)
+    console.log(`✅ Релиз из ветки ${currentBranch} завершён!`)
 } catch (error) {
-    console.error("❌ Ошибка при завершении релиза:", error.message)
+    console.error("❌ Ошибка при мердже:", error.message)
     process.exit(1)
 }
